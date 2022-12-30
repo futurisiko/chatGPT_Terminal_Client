@@ -1,0 +1,197 @@
+#!/bin/sh
+#
+#   *** Simple script to query one direct question to chatGPT from terminal. ***
+#
+#   *** REMEMBER TO ADD YOUR API KEY ***
+#   -> https://beta.openai.com/account/api-keys
+#
+#
+# chatGPT use 2 parameters: max_token and temperature.
+#
+# - max_tokens = the maximum number of tokens to generate in completion.
+#                Default = 4000
+#
+#                1000 tokens =~ 750 words
+#                Your prompt + max_tokens can't exceed the context lenght of the model.
+#                Normal models have a context lenght of 2048.
+#                New ones accept 4096.
+#
+# - temperature = defines the type of processing applied to answer.
+#                 Default = 1.0
+#
+#                 - lower (e.g. 0.0 / 1.0):
+#                 chatGPT will choose words with a higher probability of occurrence.
+#                 Useful when we want to complete something with the most probable value/phrase/word.
+#                 - higher (e.g. 1.0 / max 2.0):
+#                 Very creative but inconsistent answers.
+#                 Above 1.5 very inconsistent.
+#
+# ---------------------------
+# --- Credits: futurisiko ---
+# ---------------------------
+
+
+#text color declaration
+colorreset=$(tput sgr0)
+red=$(tput setaf 1)
+green=$(tput setaf 2)
+
+
+#API token value
+TOKEN="" # -> ADD/CHANGE HERE YOUR API TOKEN
+
+
+#default temperature declaration
+TEMP="1.0"
+
+
+#default max_tokens declaration
+MAXTOKENS="4000"
+
+
+#help usage declaration
+help () {
+  echo "${colorreset}\n--------------------"
+  echo "\n${red}chatGPT TERMINAL CLIENT${colorreset}"
+  echo "Simple script to query one direct question to chatGPT."
+  echo "\n${green}Usage: ${colorreset}chatGTP [Options] 'Question in single quotes'"
+  echo "\n${green}Example: ${colorreset}chatGPT 'Write a oneliner in powershell to get a reverse shell'"
+  echo "\n${green}Options:${colorreset}"
+  echo "-t or --temperature <0.0-1.0>: set the temperature used."
+  echo "\n     If not specified ${green}default value is 1.0${colorreset}."
+  echo "     ${red}Lower ${colorreset}temperature (e.g. 0.0 / 1.0):"
+  echo "     chatGPT will choose words with a higher probability of occurrence."
+  echo "     Useful when we want to complete something with the most probable value/phrase/word."
+  echo "     ${red}Higher ${colorreset}temperature (e.g. 1.0 / max 2.0):"
+  echo "     Very creative but inconsistent answers."
+  echo "     Above 1.5 very inconsistent."
+  echo "\n-m or --max-tokens <NUMBER>: the maximum number of tokens to generate in completion."
+  echo "\n     If not specified ${green}default value is 4000${colorreset}."
+  echo "     1000 tokens =~ 750 words."
+  echo "     Your prompt + max_tokens can't exceed the context lenght of the model."
+  echo "     Normal models have a context lenght of 2048. New ones accept up to 4096."
+  echo "\n-h or --help: print this help."
+  echo "\n\n${red}*** Attention ***"
+  echo "${colorreset}You have to ${green}escape ${colorreset}double quotes in questions: e.g. "${green}'\"'
+  echo "${colorreset}For ${red}single quote ' ${colorreset}do ${red}NOT ${colorreset}try to escape them."
+  echo "Use ${green}backtick \` ${colorreset}instead!"
+  echo "\n\n${colorreset}Cya! \m/"
+  echo "\n--------------------\n"
+}
+
+
+#check token presence
+if [ -z $TOKEN ]
+then
+    echo "${colorreset}\n--------------------"
+    echo "\n${red}No API token present!\n${colorreset}To add it modify the script with a text editor.\nYou can find the variable ${red}TOKEN ${colorreset}at the beginning of the code."
+    echo "\nIf you do not have it go to:\n\n${green}https://beta.openai.com/account/api-keys${colorreset}\n\nSubscribe and require it.\nCya! \m/"
+    echo "${colorreset}\n--------------------\n"
+    exit 1
+fi
+
+
+#while loop to manage arguments
+while test $# -gt 0; do
+    case "$1" in
+        -h|--help)
+            help
+            exit 0
+            ;;
+        -t|--temperature)
+            shift
+            if test $# -gt 1; then
+                case "$1" in
+                    [^0-9]*)
+                        export TEMP=$1
+                        ;;
+                    *)
+                        echo "${colorreset}\n--------------------"
+                        echo "\n${red}Invalid temperature specified!"
+                        echo "${colorreset}Use -h or --help to view usage examples"
+                        echo "\n--------------------\n"
+                        exit $E_BADARGS
+                        ;;
+                esac
+            else
+                echo "${colorreset}\n--------------------"
+                echo "\n${red}No temperature specified!"
+                echo "${colorreset}Use -h or --help to view usage examples"
+                echo "\n--------------------\n"
+                exit 1
+            fi
+            shift
+            ;;
+        -m|--max-tokens)
+            shift
+            if test $# -gt 1; then
+                case "$1" in
+                    [^0-9]*)
+                        export MAXTOKENS=$1
+                        ;;
+                    *)
+                        echo "${colorreset}\n--------------------"
+                        echo "\n${red}Invalid max-tokens value specified!"
+                        echo "${colorreset}Use -h or --help to view usage examples"
+                        echo "\n--------------------\n"
+                        exit $E_BADARGS
+                        ;;
+                esac
+            else
+                echo "${colorreset}\n--------------------"
+                echo "\n${red}No max-tokens value specified!"
+                echo "${colorreset}Use -h or --help to view usage examples"
+                echo "\n--------------------\n"
+                exit 1
+            fi
+            shift
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
+
+
+#if no args after while loop print help
+if [ -z "$1" ]
+then
+  help
+  exit $E_BADARGS
+fi
+
+
+#output question, temperature used and max_tokens value.
+echo "${colorreset}\n--------------------"
+echo "${red}\nQuestion: "$1
+echo "Temperature: "$TEMP
+echo "Max_tokens: "$MAXTOKENS
+
+
+#ouput answer
+echo "${colorreset}\n--------------------"
+echo "${green}\nAnswer:"
+
+
+#curl query command
+query=`cat <<EOS
+curl -s https://api.openai.com/v1/completions \
+  -H 'Content-Type: application/json' \
+  -H "Authorization: Bearer $TOKEN" \
+  -d '{
+  "model": "text-davinci-003",
+  "prompt": "$1",
+  "max_tokens": $MAXTOKENS,
+  "temperature": $TEMP
+
+}' \
+--insecure | jq '.choices[]'.text
+EOS`
+
+
+#execution
+echo ${green}$(eval ${query} | sed '1s/^.//' | sed 's/.$//' | sed 's@\\"@"@g')
+
+
+#end
+echo '\n'
