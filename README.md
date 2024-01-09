@@ -8,8 +8,6 @@ Its main porpuse is to use chatGPT as a ***powerful search-engine / terminal-too
 Remember that chatGPT is also capable to answer in multiple/alternative ways.<br>
 Play with its "***temperature***" to have the ***most common answer or a variety of different creative answers***.
 <br>
-Remember also that ***it makes mistakes too***.
-Check its answers yourself!
 
 Usage: 
 ```
@@ -64,7 +62,6 @@ If you want to implement it directly in your system you just have to copy it in 
 sudo cp chatGPT /usr/local/bin
 ```
 If you are going to use it in a real working enviroment ***PLEASE*** pay attention to permissions you will give to this script.
-The ```curl``` query is called with an ```eval``` command. If someone find a legit way to pass a command to the script (instead of a question) and the script has (***WRONGLY***) a SUID sticky bit setted it could lead to a ***privilege escalation***.
 
 ## REMEMBER TO ADD YOUR API KEY
 
