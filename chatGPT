@@ -179,7 +179,7 @@ curl -s https://api.openai.com/v1/completions \
   -H 'Content-Type: application/json' \
   -H "Authorization: Bearer $TOKEN" \
   -d '{
-  "model": "text-davinci-003",
+  "model": "gpt-3.5-turbo",
   "prompt": "$1",
   "max_tokens": $MAXTOKENS,
   "temperature": $TEMP
