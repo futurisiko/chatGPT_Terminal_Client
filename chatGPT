@@ -175,7 +175,7 @@ echo "${green}\nAnswer:"
 
 #curl query command
 query=`cat <<EOS
-curl -s https://api.openai.com/v1/completions \
+curl -s https://api.openai.com/v1/chat/completions \
   -H 'Content-Type: application/json' \
   -H "Authorization: Bearer $TOKEN" \
   -d '{
