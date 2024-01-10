@@ -177,7 +177,7 @@ curl -s https://api.openai.com/v1/chat/completions \
   -H "Authorization: Bearer $TOKEN" \
   -d '{
   "model": "gpt-3.5-turbo",
-  "messages": [{"role": "user", "content": "$1"}],
+  "prompt": "$1",
   "max_tokens": $MAXTOKENS,
   "temperature": $TEMP
 
