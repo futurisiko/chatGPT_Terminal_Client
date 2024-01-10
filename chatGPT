@@ -15,7 +15,7 @@
 #                Your prompt + max_tokens can't exceed the context lenght of the model.
 #
 # - temperature = defines the type of processing applied to answer.
-#                 Default = 1.0
+#                 Default = 0.7
 #
 #                 - lower (e.g. 0.0 / 1.0):
 #                 chatGPT will choose words with a higher probability of occurrence.
