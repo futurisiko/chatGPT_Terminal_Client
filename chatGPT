@@ -13,8 +13,6 @@
 #
 #                1000 tokens =~ 750 words
 #                Your prompt + max_tokens can't exceed the context lenght of the model.
-#                Normal models have a context lenght of 2048.
-#                New ones accept 4096.
 #
 # - temperature = defines the type of processing applied to answer.
 #                 Default = 1.0
@@ -42,7 +40,7 @@ TOKEN="" # -> ADD/CHANGE HERE YOUR API TOKEN
 
 
 #default temperature declaration
-TEMP="1.0"
+TEMP="0.7"
 
 
 #default max_tokens declaration
@@ -58,7 +56,7 @@ help () {
   echo "\n${green}Example: ${colorreset}chatGPT 'Write a oneliner in powershell to get a reverse shell'"
   echo "\n${green}Options:${colorreset}"
   echo "-t or --temperature <0.0-1.0>: set the temperature used."
-  echo "\n     If not specified ${green}default value is 1.0${colorreset}."
+  echo "\n     If not specified ${green}default value is 0.7${colorreset}."
   echo "     ${red}Lower ${colorreset}temperature (e.g. 0.0 / 1.0):"
   echo "     chatGPT will choose words with a higher probability of occurrence."
   echo "     Useful when we want to complete something with the most probable value/phrase/word."
@@ -69,7 +67,6 @@ help () {
   echo "\n     If not specified ${green}default value is 4000${colorreset}."
   echo "     1000 tokens =~ 750 words."
   echo "     Your prompt + max_tokens can't exceed the context lenght of the model."
-  echo "     Normal models have a context lenght of 2048. New ones accept up to 4096."
   echo "\n-h or --help: print this help."
   echo "\n\n${red}*** Attention ***"
   echo "${colorreset}You have to ${green}escape ${colorreset}double quotes in questions: e.g. "${green}'\"'
