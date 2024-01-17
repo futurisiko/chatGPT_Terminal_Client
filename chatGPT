@@ -58,7 +58,7 @@ help () {
   echo "${colorreset}\n--------------------"
   echo "\n${red}chatGPT TERMINAL CLIENT${colorreset}"
   echo "\nSimple script to query one direct question to chatGPT."
-  echo "\n${green}Usage: ${colorreset}chatGTP -m gpt-4 -t 1.0 -m 1000 'Question in single quotes'"
+  echo "\n${green}Usage: ${colorreset}chatGTP -m gpt-4 -t 1.0 -mt 1000 'Question in single quotes'"
   echo "\n${green}Example: ${colorreset}chatGPT 'Write a powershell oneliner to send a command to a server list'"
   echo "\n${green}Options${colorreset}"
   echo "\n-m or --model <MODEL>: select the model to use."
