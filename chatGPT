@@ -222,9 +222,7 @@ curl -s https://api.openai.com/v1/chat/completions \
 
 
 #execution
-echo ${green}$(eval ${query})
-
-## | sed '1s/^.//' | sed 's/.$//' | sed 's@\\"@"@g')
+echo ${green}$(eval ${query} | sed '1s/^.//' | sed 's/.$//' | sed 's@\\"@"@g')
 
 
 #end
