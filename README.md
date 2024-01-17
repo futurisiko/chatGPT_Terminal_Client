@@ -11,12 +11,12 @@ Play with its "***temperature***" to have the ***most common answer or a variety
 
 Usage: 
 ```
-chatGTP [Options] 'Question in single quotes'
+chatGTP -m <MODEL> -t <NUMBER> -mt <NUMBER> 'Question in single quotes'
 ```
 
 Examples: 
 ```
-chatGPT 'Write a oneliner in powershell to get a reverse shell'
+chatGPT 'Write a powershell oneliner to send a command to a server list'
 ```
 ```
 chatGPT -t 0.5 'Write a script in python to open a socket'
@@ -27,10 +27,15 @@ Help:
 ```
 chatGPT -h
 
-Options:
--t or --temperature <0.0-1.0>: set the temperature used.
+Options
 
-     If not specified default value is 1.0.
+-m or --model <MODEL>: select the model to use.
+     If not specified default value is 'gpt-3.5-turbo'.
+     You can try 'gpt-4' to ask more complex questions/tasks.
+
+-t or --temperature <0.0-2.0>: set the temperature used.
+
+     If not specified default value is 0.5.
      Lower temperature (e.g. 0.0 / 1.0):
      chatGPT will choose words with a higher probability of occurrence.
      Useful when we want to complete something with the most probable value/phrase/word.
@@ -38,12 +43,10 @@ Options:
      Very creative but inconsistent answers.
      Above 1.5 very inconsistent.
 
--m or --max-tokens <NUMBER>: the maximum number of tokens to generate in completion.
+-mt or --max-tokens <NUMBER>: the maximum number of tokens to generate in completion.
 
      If not specified default value is 4000.
-     1000 tokens =~ 750 words.
      Your prompt + max_tokens can't exceed the context lenght of the model.
-     Normal models have a context lenght of 2048. New ones accept up to 4096.
 
 -h or --help: print this help.
 
@@ -75,21 +78,18 @@ Subscribe and require it!
 
 ## DESCRIPTION:
 
-chatGPT use 2 parameters: max_token and temperature.
+ chatGPT use 3 parameters: model, max_token and temperature.
 
-- max_tokens = the maximum number of tokens to generate in completion of your question.
-               Default script value is = 4000.
-               To understand what does it mean think that 1000 tokens =~ 750 words.
-               Your prompt + max_tokens can't exceed the context lenght of the model.
-               Normal models have a context lenght of 2048.
-               New ones accept 4096.
+ - model =     select which model to use. 
+               If not specified default is gpt-3.5-turbo. 
+               You can try gpt-4 to ask more complex question/tasks.
 
-- temperature = defines the type ("creativity") of processing applied to answer.
-                Default script value is = 1.0. 
-                Lower values (e.g. 0.0 / 1.0) mean that chatGPT will choose words with a higher probability of occurrence.
-                Useful when we want to complete something with the most probable value/phrase/word. 
-                Higher values (e.g. 1.0 / max 2.0) instead could create very creative but inconsistent answers.
-                Above 1.5 very inconsistent.
+ - max_tokens = the maximum number of tokens to generate in completion. 
+                Default is 4000. 
+                Your prompt + max_tokens can't exceed the context lenght of the model.
+
+ - temperature = defines the type of processing applied to answer. 
+                 Default is 0.5 .
                 
 ## ATTENTION
 You have to escape double quotes in questions: ``` e.g. \" ```.<br>
